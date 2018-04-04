@@ -7,23 +7,13 @@ Created on Thu Mar 22 12:42:07 2018
 import os, sys
 from flask import Flask, request
 from utils import wit_response
+from chat import *
 from pymessenger import Bot
 
 app = Flask(__name__)
 
-PAGE_ACCESS_TOKEN = "XXXX"
+a = ChatInterface()
 
-bot = Bot(PAGE_ACCESS_TOKEN)
-
-@app.route('/', methods=['GET'])
-def verify():
-        #Webhook verification
-        if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.challenge"):
-            if not request.args.get("hub.verify_token")== "hello":
-                return "Verification token mismatch", 403
-            return request.args["hub.challenge"], 200
-        return "Hello world", 200
-    
 @app.route('/', methods=['POST'])
 def webhook():
     data = request.get_json()
@@ -52,9 +42,7 @@ def webhook():
 
                     if entity == 'treballador_rol':
                         response = "Ok, buscaré al {} ".format(str(value))
-                    else
-                    response = "Perdona, no ho he entès"
-                    bot.send_text_message(sender_id, response)
+                    a.send_text_message(sender_id, response)
                                                 
     return "ok", 200
     

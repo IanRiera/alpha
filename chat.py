@@ -29,7 +29,6 @@ class ChatInterface(Frame):
         file.add_command(label="Clear Chat", command=self.clear_chat)
         file.add_separator()
         file.add_command(label="Exit", command=self.client_exit)
-
             
     # Chat interface
         # frame containing text box with messages and scrollbar
@@ -129,8 +128,7 @@ class ChatInterface(Frame):
         self.text_box.see(END)
         self.text_box.configure(state=DISABLED)
 
-    
-# Font options
+    # Font options
     def font_change_default(self):
         self.text_box.config(font="Calibri 12")
         self.entry_field.config(font="Calibri 12")
