@@ -1,19 +1,22 @@
 # based on a project by Jorge Soderberg
 from tkinter import *
+from app import *
 import time
 import re
 import os
 import string
 
-saved_username = ["Ian"]
+user_name = ["Ian"]
 default_window_size = "400x400"
+brain = brain()
 
 class ChatInterface(Frame):
+
     def __init__(self, master=None):
         Frame.__init__(self, master)
         self.master = master
 
-        # sets default bg for top level windows
+		# sets default bg for top level windows
         self.tl_bg = "#EEEEEE"
         self.tl_bg2 = "#EEEEEE"
         self.tl_fg = "#000000"
@@ -68,6 +71,8 @@ class ChatInterface(Frame):
 
         
         self.last_sent_label(date="No s'han enviat missatges")
+
+		
         # indicates last sent message time
     def last_sent_label(self, date):
 
@@ -95,14 +100,13 @@ class ChatInterface(Frame):
       
     # allows "enter" key for sending msg
     def send_message_event(self, event):
-        user_name = saved_username[-1]
-        self.send_message(user_name)
+        self.send_message(user_name[-1])
 
     # joins username with message into publishable format
     def send_message(self, username):
 
         user_input = self.entry_field.get()
-        username = saved_username[-1] + ": "
+        username = user_name[-1] + ": "
         message = (username, user_input)
         readable_msg = ''.join(message)
         readable_msg.strip('{')
@@ -112,13 +116,19 @@ class ChatInterface(Frame):
         if user_input != '':
             self.entry_field.delete(0, END)
             self.send_message_insert(readable_msg)
+            print(user_input)
+            response=brain.get_response(user_input)
+            self.send_bot_message(response)
+
 
         # joins username with message into publishable format
-    def send_bot_message(self, username):
+    def send_bot_message(self, message):
 
-        bot_answer = "Hello World"
+        bot_answer = message
+        print(bot_answer)
         username = "Amanda: "
         message = (username, bot_answer)
+        print(message)
         readable_msg = ''.join(message)
         readable_msg.strip('{')
         readable_msg.strip('}')
@@ -143,60 +153,3 @@ class ChatInterface(Frame):
         self.last_sent_label(str(time.strftime( "Last message sent: " + '%B %d, %Y' + ' at ' + '%I:%M %p')))
         self.text_box.see(END)
         self.text_box.configure(state=DISABLED)
-
-    # Font options
-    def font_change_default(self):
-        self.text_box.config(font="Calibri 12")
-        self.entry_field.config(font="Calibri 12")
-        self.font = "Calibri 12"
-
-  
-# Color theme options
-    # Default
-    def color_theme_default(self):
-        self.master.config(bg="#EEEEEE")
-        self.text_frame.config(bg="#EEEEEE")
-        self.entry_frame.config(bg="#EEEEEE")
-        self.text_box.config(bg="#FFFFFF", fg="#000000")
-        self.entry_field.config(bg="#FFFFFF", fg="#000000", insertbackground="#000000")
-        self.send_button_frame.config(bg="#EEEEEE")
-        self.send_button.config(bg="#FFFFFF", fg="#000000", activebackground="#FFFFFF", activeforeground="#000000")
-        self.emoji_button.config(bg="#FFFFFF", fg="#000000", activebackground="#FFFFFF", activeforeground="#000000")
-        self.sent_label.config(bg="#EEEEEE", fg="#000000")
-
-        self.tl_bg = "#FFFFFF"
-        self.tl_bg2 = "#EEEEEE"
-        self.tl_fg = "#000000"
-   
-    # Default font and color theme
-    def default_format(self):
-        self.font_change_default()
-        self.color_theme_default()
-
-    # Use default username ("You")
-    def default_username(self):
-        saved_username.append("You")
-        self.send_message_insert("Username changed to default.")
-    
-# return to default window size
-    def default_window_size(self):
-
-        root.geometry(default_window_size)
-        print(default_window_size)
-
-        # scrolls to very bottom of textbox
-        def see_end():
-            self.text_box.configure(state=NORMAL)
-            self.text_box.see(END)
-            self.text_box.configure(state=DISABLED)
-        root.after(10, see_end)
-
-root = Tk()
-root.title("Chat GUI")
-root.geometry(default_window_size)
-print(default_window_size)
-root.minsize(360,200)
-
-a = ChatInterface(root)
-
-root.mainloop()
