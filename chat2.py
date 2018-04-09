@@ -1,4 +1,5 @@
-# based on a project by Jorge Soderberg
+# Author: Ian Riera Smolinska
+# Graphic interface based on a project from Jorge Soderberg
 from tkinter import *
 from app import *
 import time
@@ -8,6 +9,7 @@ import string
 
 user_name = ["Ian"]
 default_window_size = "400x400"
+
 brain = brain()
 
 class ChatInterface(Frame):
@@ -28,10 +30,10 @@ class ChatInterface(Frame):
 
     # File
         file = Menu(menu, tearoff=0)
-        menu.add_cascade(label="File", menu=file)
-        file.add_command(label="Clear Chat", command=self.clear_chat)
+        menu.add_cascade(label="Arxiu", menu=file)
+        file.add_command(label="Esborrar chat", command=self.clear_chat)
         file.add_separator()
-        file.add_command(label="Exit", command=self.client_exit)
+        file.add_command(label="Sortir", command=self.client_exit)
             
     # Chat interface
         # frame containing text box with messages and scrollbar
