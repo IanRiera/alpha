@@ -1,7 +1,7 @@
 # Author: Ian Riera Smolinska
 from wit import Wit
 
-access_token = "B4ZEBYM34XZYUDEWE57RUDOXNLQL6GGB"
+access_token = ""
 
 client = Wit(access_token = access_token)
 
